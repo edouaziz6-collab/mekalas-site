@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mekala's Gourmandise — Bols cake</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#C9A24D;--gold-light:#e8c97a;
+  --bg:#0d0d0d;--bg2:#161410;--bg3:#1f1c17;
+  --text:#fff;--text2:#b8a898;--text3:#6b5d4f;
+  --radius:14px;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+nav{position:sticky;top:0;z-index:100;background:rgba(13,13,13,0.95);backdrop-filter:blur(12px);border-bottom:1px solid #1f1c17;padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px}
+.nav-logo-icon{width:40px;height:40px;border-radius:10px;overflow:hidden;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:20px;background:var(--bg3)}
+.nav-logo-icon img{width:100%;height:100%;object-fit:cover}
+.nav-logo-name{font-family:'Playfair Display',serif;font-size:16px;color:var(--text)}
+.nav-logo-sub{font-size:10px;color:var(--gold);letter-spacing:1px}
+.nav-cmd{background:var(--gold);color:#000;border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif}
+
+.shop-status{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 20px;background:#1a1a1a;border-bottom:1px solid #2a2218}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.status-open{background:#4CAF50;animation:pulse 2s infinite}
+.status-closed{background:#e74c3c}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.status-text{font-size:12px;color:var(--text2)}
+
+.hero{padding:36px 20px 28px;text-align:center;background:linear-gradient(180deg,#1a1000 0%,var(--bg) 100%)}
+.hero-logo{width:80px;height:80px;border-radius:18px;overflow:hidden;border:2px solid var(--gold);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:36px;background:var(--bg3)}
+.hero-logo img{width:100%;height:100%;object-fit:cover}
+.hero h1{font-family:'Playfair Display',serif;font-size:28px;line-height:1.3;margin-bottom:10px}
+.hero h1 span{color:var(--gold)}
+.hero p{font-size:13px;color:var(--text2);line-height:1.7;max-width:300px;margin:0 auto 22px}
+.hero-cta{display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:#000;border:none;border-radius:10px;padding:13px 26px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif}
+
+/* PHOTOS BOLS */
+.photos-section{padding:20px}
+.photos-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.photo-slot{border-radius:12px;overflow:hidden;aspect-ratio:1;background:var(--bg3);border:1px solid #2a2218;display:flex;align-items:center;justify-content:center;font-size:32px;position:relative}
+.photo-slot img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-slot-label{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.8));padding:16px 10px 8px;font-size:11px;color:#fff;font-weight:500}
+
+/* SECTION */
+.section{padding:20px}
+.section-title{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:6px}
+.section-sub{font-size:13px;color:var(--text2);margin-bottom:18px;line-height:1.6}
+
+/* PARFUMS */
+.flavors{display:flex;flex-direction:column;gap:12px}
+.flavor-card{background:var(--bg3);border:2px solid #2a2218;border-radius:var(--radius);padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all 0.2s}
+.flavor-card.active{border-color:var(--gold);background:#1a1000}
+.flavor-emoji{font-size:32px;flex-shrink:0}
+.flavor-info{flex:1}
+.flavor-name{font-size:15px;font-weight:600;color:#fff;margin-bottom:3px}
+.flavor-desc{font-size:12px;color:var(--text2)}
+.flavor-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.flavor-price{font-size:13px;color:var(--gold);font-weight:600}
+.flavor-qty{display:none;align-items:center;gap:8px}
+.flavor-card.active .flavor-qty{display:flex}
+.qty-btn{width:32px;height:32px;border-radius:8px;background:#0d0d0d;border:1px solid #3a2a10;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif}
+.qty-btn:hover{border-color:var(--gold);color:var(--gold)}
+.qty-num{font-size:16px;font-weight:700;color:#fff;min-width:24px;text-align:center}
+
+/* MODE */
+.mode-section{padding:0 20px 20px}
+.mode-label{font-size:11px;color:var(--text2);letter-spacing:0.5px;margin-bottom:10px;display:block}
+.mode-cards{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mode-card{border:2px solid #2a2218;border-radius:var(--radius);padding:14px;text-align:center;cursor:pointer;transition:all 0.2s;background:var(--bg3)}
+.mode-card.active{border-color:var(--gold);background:#1a1000}
+.mode-icon{font-size:24px;margin-bottom:6px}
+.mode-name{font-size:13px;font-weight:600;color:#fff;margin-bottom:3px}
+.mode-desc{font-size:10px;color:var(--text2)}
+
+/* FORMULAIRE */
+.form-section{padding:20px;background:var(--bg2)}
+.form-card{background:var(--bg3);border-radius:var(--radius);border:1px solid #2a2218;padding:20px}
+.form-title{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:4px}
+.form-sub{font-size:12px;color:var(--text2);margin-bottom:18px}
+.form-group{margin-bottom:14px}
+.form-label{font-size:11px;color:var(--text2);letter-spacing:0.5px;margin-bottom:6px;display:block}
+.form-label .req{color:var(--gold)}
+.form-input{width:100%;background:#0d0d0d;border:1px solid #2a2218;border-radius:9px;padding:12px 14px;color:#fff;font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color 0.2s}
+.form-input:focus{border-color:var(--gold)}
+.form-input::placeholder{color:var(--text3)}
+
+.delivery-fields{display:none}
+.delivery-fields.show{display:block}
+.delivery-info{background:#0d0d0d;border-radius:8px;padding:10px 12px;font-size:11px;color:var(--text2);margin-bottom:12px;border-left:3px solid var(--gold);line-height:1.7}
+
+.closed-banner{background:#1a0a00;border:1px solid #e67e22;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:12px;color:#e67e22;line-height:1.6;display:none}
+.closed-banner strong{display:block;margin-bottom:3px}
+
+.summary-box{background:#0d0d0d;border-radius:10px;padding:14px;border:1px solid #2a2218;margin-bottom:14px;display:none}
+.sum-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px}
+.sum-row:last-child{margin:0;padding-top:8px;border-top:1px solid #2a2218;font-weight:600;color:var(--gold)}
+.sum-label{color:var(--text2)}
+.sum-val{color:#fff}
+
+.form-submit{width:100%;background:var(--gold);color:#000;border:none;border-radius:10px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:background 0.2s}
+.form-submit:hover{background:var(--gold-light)}
+
+/* SUCCÈS */
+.success-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:200;align-items:center;justify-content:center;padding:20px}
+.success-card{background:var(--bg3);border-radius:20px;border:1px solid #3a2a10;padding:28px 22px;text-align:center;max-width:320px;width:100%}
+.success-icon{font-size:48px;margin-bottom:14px}
+.success-title{font-family:'Playfair Display',serif;font-size:22px;margin-bottom:8px}
+.success-text{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:14px}
+.success-detail{background:#0d0d0d;border-radius:8px;padding:12px;font-size:12px;color:var(--gold);margin-bottom:10px;border:1px solid #2a2218;line-height:1.8;text-align:left}
+.success-ref{font-size:11px;color:#555;margin-bottom:16px}
+
+/* PRÉSENCE */
+.presence-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:200;align-items:center;justify-content:center;padding:20px}
+.presence-card{background:var(--bg3);border-radius:20px;border:1px solid #3a2a10;padding:28px 22px;text-align:center;max-width:320px;width:100%}
+.presence-title{font-family:'Playfair Display',serif;font-size:20px;margin-bottom:8px}
+.presence-text{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:20px}
+.presence-btn{width:100%;background:#4CAF50;color:#000;border:none;border-radius:10px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:10px}
+.presence-later{width:100%;background:transparent;color:var(--text2);border:1px solid #2a2218;border-radius:10px;padding:12px;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif}
+
+/* NOTIF PATRON */
+.patron-notif{display:none;position:fixed;top:16px;right:16px;background:#1a2a10;border:1px solid #4CAF50;border-radius:14px;padding:14px 16px;z-index:300;max-width:290px;box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+.notif-header{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.notif-dot{width:8px;height:8px;border-radius:50%;background:#4CAF50;animation:pulse 1.5s infinite;flex-shrink:0}
+.notif-title{font-size:12px;font-weight:600;color:#4CAF50}
+.notif-body{font-size:11px;color:#ccc;line-height:1.7}
+.notif-type{display:inline-block;font-size:9px;padding:2px 7px;border-radius:10px;margin-bottom:6px;font-weight:600}
+.notif-surplace{background:#1a1a2a;color:#64B5F6}
+.notif-livraison{background:#2a1a00;color:var(--gold)}
+.notif-presence{background:#1a2a10;color:#4CAF50}
+
+footer{padding:24px 20px;text-align:center;border-top:1px solid #1f1c17}
+footer p{font-size:12px;color:var(--text3);margin-bottom:4px}
+footer span{color:var(--gold)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-icon" id="nav-logo-icon">🎂</div>
+    <div>
+      <div class="nav-logo-name" id="nav-logo-name">Mekala's</div>
+      <div class="nav-logo-sub">GOURMANDISE</div>
+    </div>
+  </div>
+  <button class="nav-cmd" onclick="document.getElementById('commander').scrollIntoView({behavior:'smooth'})">Commander</button>
+</nav>
+
+<div class="shop-status">
+  <div class="status-dot" id="status-dot"></div>
+  <div class="status-text" id="status-text"></div>
+</div>
+
+<div class="hero">
+  <div class="hero-logo" id="hero-logo">🎂</div>
+  <h1>Vos bols cake<br><span>livrés chez vous</span></h1>
+  <p>Chocolat, vanille, café ou cérélac, faits à la main avec amour. Commandez en ligne, livraison à domicile ou récupération sur place.</p>
+  <button class="hero-cta" onclick="document.getElementById('commander').scrollIntoView({behavior:'smooth'})">
+    Commander maintenant →
+  </button>
+</div>
+
+<!-- PHOTOS BOLS -->
+<div class="photos-section">
+  <div class="photos-grid" id="photos-grid">
+    <div class="photo-slot">🍫<div class="photo-slot-label">Bol chocolat</div></div>
+    <div class="photo-slot">🍦<div class="photo-slot-label">Bol vanille</div></div>
+    <div class="photo-slot">🎂<div class="photo-slot-label">Nos créations</div></div>
+    <div class="photo-slot">✨<div class="photo-slot-label">Fait maison</div></div>
+  </div>
+</div>
+
+<!-- PARFUMS -->
+<div class="section">
+  <div class="section-title">Choisissez vos parfums</div>
+  <div class="section-sub">Sélectionnez un ou plusieurs parfums avec la quantité souhaitée pour chacun</div>
+  <div class="flavors">
+    <div class="flavor-card" id="card-chocolat" onclick="toggleFlavor('chocolat')">
+      <div class="flavor-emoji">🍫</div>
+      <div class="flavor-info">
+        <div class="flavor-name">Chocolat</div>
+        <div class="flavor-desc">Fondant et intense</div>
+      </div>
+      <div class="flavor-right">
+        <div class="flavor-price">1 000 FCFA / bol</div>
+        <div class="flavor-qty" id="qty-chocolat">
+          <button class="qty-btn" onclick="event.stopPropagation();changeQty('chocolat',-1)">−</button>
+          <span class="qty-num" id="num-chocolat">1</span>
+          <button class="qty-btn" onclick="event.stopPropagation();changeQty('chocolat',1)">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="flavor-card" id="card-vanille" onclick="toggleFlavor('vanille')">
+      <div class="flavor-emoji">🍦</div>
+      <div class="flavor-info">
+        <div class="flavor-name">Vanille</div>
+        <div class="flavor-desc">Doux et crémeux</div>
+      </div>
+      <div class="flavor-right">
+        <div class="flavor-price">1 000 FCFA / bol</div>
+        <div class="flavor-qty" id="qty-vanille">
+          <button class="qty-btn" onclick="event.stopPropagation();changeQty('vanille',-1)">−</button>
+          <span class="qty-num" id="num-vanille">1</span>
+          <button class="qty-btn" onclick="event.stopPropagation();changeQty('vanille',1)">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="flavor-card" id="card-cafe" onclick="toggleFlavor('cafe')">
+      <div class="flavor-emoji">☕</div>
+      <div class="flavor-info">
+        <div class="flavor-name">Café</div>
+        <div class="flavor-desc">Arôme riche et gourmand</div>
+      </div>
+      <div class="flavor-right">
+        <div class="flavor-price">1 000 FCFA / bol</div>
+        <div class="flavor-qty" id="qty-cafe">
+          <button class="qty-btn" onclick="event.stopPropagation();changeQty('cafe',-1)">−</button>
+          <span class="qty-num" id="num-cafe">1</span>
+          <button class="qty-btn" onclick="event.stopPropagation();changeQty('cafe',1)">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="flavor-card" id="card-cerelac" onclick="toggleFlavor('cerelac')">
+      <div class="flavor-emoji">🌾</div>
+      <div class="flavor-info">
+        <div class="flavor-name">Cérélac</div>
+        <div class="flavor-desc">Doux et nourrissant</div>
+      </div>
+      <div class="flavor-right">
+        <div class="flavor-price">1 000 FCFA / bol</div>
+        <div class="flavor-qty" id="qty-cerelac">
+          <button class="qty-btn" onclick="event.stopPropagation();changeQty('cerelac',-1)">−</button>
+          <span class="qty-num" id="num-cerelac">1</span>
+          <button class="qty-btn" onclick="event.stopPropagation();changeQty('cerelac',1)">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODE -->
+<div class="mode-section">
+  <span class="mode-label">Mode de récupération</span>
+  <div id="livraison-suspended" style="display:none;background:#1a0a00;border:1px solid #e74c3c40;border-radius:10px;padding:10px 14px;margin-bottom:10px;font-size:12px;color:#e74c3c;line-height:1.6">
+    🛵 <strong>Livraisons temporairement suspendues</strong><br>
+    <span style="color:#888">Les livreurs ne sont pas disponibles en ce moment. Vous pouvez toujours commander sur place.</span>
+  </div>
+  <div class="mode-cards">
+    <div class="mode-card active" id="mode-place" onclick="selectMode('place')">
+      <div class="mode-icon">🏪</div>
+      <div class="mode-name">Sur place</div>
+      <div class="mode-desc">Paiement à la caisse</div>
+    </div>
+    <div class="mode-card" id="mode-livraison" onclick="selectMode('livraison')">
+      <div class="mode-icon">🛵</div>
+      <div class="mode-name">Livraison</div>
+      <div class="mode-desc">Le livreur collecte</div>
+    </div>
+  </div>
+</div>
+
+<!-- FORMULAIRE -->
+<div class="form-section" id="commander">
+  <div class="form-card">
+    <div class="form-title">Vos informations</div>
+    <div class="form-sub">Nous vous recontactons pour confirmer</div>
+
+    <div class="closed-banner" id="closed-banner">
+      <strong>🌙 Boutique actuellement fermée</strong>
+      Votre commande sera préparée et livrée demain dès l'ouverture.
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Votre nom <span class="req">*</span></label>
+      <input class="form-input" type="text" placeholder="Ex: Marie Ekori" id="client-name">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Numéro de téléphone <span class="req">*</span></label>
+      <input class="form-input" type="tel" placeholder="+241 06 XX XX XX" id="client-phone">
+    </div>
+
+    <!-- Champs livraison uniquement -->
+    <div class="delivery-fields" id="delivery-fields">
+      <div class="delivery-info">
+        🛵 Le livreur viendra vous trouver et collectera le paiement à la livraison.
+      </div>
+      <div class="form-group">
+        <label class="form-label">Commune <span class="req">*</span></label>
+        <select class="form-input" id="delivery-commune" onchange="updateDeliveryFee()">
+          <option value="">-- Choisir votre commune --</option>
+          <option value="lbv">Libreville — frais de livraison : 2 000 FCFA</option>
+          <option value="other">Autre commune (Owendo, Akanda, Ntoum...) — frais : 3 000 FCFA</option>
+        </select>
+      </div>
+      <div class="delivery-fee-box" id="delivery-fee-box" style="display:none;background:#1a1200;border:1px solid #C9A24D40;border-radius:9px;padding:10px 14px;margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:12px;color:#b8a898">Frais de livraison</span>
+          <span style="font-size:14px;font-weight:600;color:#C9A24D" id="delivery-fee-label">0 FCFA</span>
+        </div>
+        <div style="font-size:11px;color:#6b5d4f;margin-top:4px" id="delivery-fee-note"></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Adresse de livraison <span class="req">*</span></label>
+        <input class="form-input" type="text" placeholder="Quartier, rue, repère proche..." id="delivery-address">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Numéro à joindre pour la livraison <span class="req">*</span></label>
+        <input class="form-input" type="tel" placeholder="+241 06 XX XX XX" id="delivery-phone">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Notes (optionnel)</label>
+      <textarea class="form-input" placeholder="Heure souhaitée, précisions..." rows="2" id="notes" style="resize:none"></textarea>
+    </div>
+
+    <!-- Récapitulatif -->
+    <div class="summary-box" id="summary-box">
+      <div class="sum-row">
+        <span class="sum-label">Mode</span>
+        <span class="sum-val" id="sum-mode">Sur place</span>
+      </div>
+      <div class="sum-row" id="sum-fee-row" style="display:none">
+        <span class="sum-label">Frais livraison</span>
+        <span class="sum-val" id="sum-fee-val"></span>
+      </div>
+      <div class="sum-row">
+        <span>Total</span>
+        <span id="sum-total">0 FCFA</span>
+      </div>
+    </div>
+
+    <button class="form-submit" onclick="submitOrder()">Envoyer ma commande →</button>
+  </div>
+</div>
+
+<footer>
+  <p>📍 Libreville, Gabon</p>
+  <p>📞 <span id="footer-phone">07 45 57 72</span></p>
+  <p style="margin-top:8px"><span>Mekala's Gourmandise</span> — Pâtisserie artisanale</p>
+</footer>
+
+<!-- SUCCÈS -->
+<div class="success-overlay" id="success-overlay">
+  <div class="success-card">
+    <div class="success-icon" id="s-icon">🎉</div>
+    <div class="success-title" id="s-title">Commande envoyée !</div>
+    <div class="success-text" id="s-text"></div>
+    <div class="success-detail" id="s-detail"></div>
+    <div class="success-ref" id="s-ref"></div>
+    <button class="form-submit" id="s-btn" onclick="handleSuccessBtn()" style="margin-bottom:0"></button>
+  </div>
+</div>
+
+<!-- SIGNALEMENT PRÉSENCE -->
+<div class="presence-overlay" id="presence-overlay">
+  <div class="presence-card">
+    <div style="font-size:48px;margin-bottom:14px">📍</div>
+    <div class="presence-title">Vous êtes arrivé ?</div>
+    <div class="presence-text">Signalez votre présence à la boutique pour que Mekala's prépare votre commande immédiatement.</div>
+    <button class="presence-btn" onclick="signalPresence()">✓ Je suis à la boutique !</button>
+    <button class="presence-later" onclick="closePresentOverlay()">Je signalerais plus tard</button>
+  </div>
+</div>
+
+<!-- NOTIF PATRON -->
+<div class="patron-notif" id="patron-notif">
+  <div class="notif-header">
+    <div class="notif-dot"></div>
+    <div class="notif-title">🔔 <span id="notif-title-text">Nouvelle commande</span></div>
+  </div>
+  <div class="notif-body" id="notif-body"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+// SUPABASE
+const { createClient } = supabase;
+const sb = createClient(
+  'https://ccgntvpwuycfswkmsqaz.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNjZ250dnB3dXljZnN3a21zcWF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE4MzgyODQsImV4cCI6MjEwNzQxNDI4NH0.cUUz81dAdFIj9U-c6NDNlCUoeKVgC5gPpsjoTfI5DAk'
+);
+
+// Charger les settings (logo, photos)
+async function loadSettings() {
+  const { data } = await sb.from('mekalas_settings').select('*').eq('id', 1).single();
+  if(!data) return;
+  if(data.logo_url) {
+    const logoUrl = sb.storage.from('mekalas-media').getPublicUrl(data.logo_url).data.publicUrl;
+    document.getElementById('nav-logo-icon').innerHTML = `<img src="${logoUrl}" alt="logo">`;
+    document.getElementById('hero-logo').innerHTML = `<img src="${logoUrl}" alt="logo">`;
+  }
+  if(data.phone) document.getElementById('footer-phone').textContent = data.phone;
+  // Blocage livraison
+  if(data.livraison_active === false) {
+    state.livraisonActive = false;
+    const suspended = document.getElementById('livraison-suspended');
+    const modeCard  = document.getElementById('mode-livraison');
+    suspended.style.display = 'block';
+    modeCard.style.opacity  = '0.4';
+    modeCard.style.pointerEvents = 'none';
+    modeCard.querySelector('.mode-desc').textContent = 'Indisponible';
+  }
+  const photos = [data.photo1_url, data.photo2_url, data.photo3_url, data.photo4_url];
+  const labels = ['Bol chocolat', 'Bol vanille', 'Nos créations', 'Fait maison'];
+  const grid = document.getElementById('photos-grid');
+  grid.innerHTML = '';
+  photos.forEach((p, i) => {
+    const slot = document.createElement('div');
+    slot.className = 'photo-slot';
+    if(p) {
+      const url = sb.storage.from('mekalas-media').getPublicUrl(p).data.publicUrl;
+      slot.innerHTML = `<img src="${url}" alt="${labels[i]}"><div class="photo-slot-label">${labels[i]}</div>`;
+    } else {
+      slot.innerHTML = `${i===0?'🍫':i===1?'🍦':'🎂'}<div class="photo-slot-label">${labels[i]}</div>`;
+    }
+    grid.appendChild(slot);
+  });
+}
+loadSettings();
+
+// STATE
+const FLAVORS = ['chocolat','vanille','cafe','cerelac'];
+const FLAVOR_EMOJI = { chocolat:'🍫', vanille:'🍦', cafe:'☕', cerelac:'🌾' };
+const state = {
+  chocolat: false, chocolatQty: 1,
+  vanille:  false, vanilleQty:  1,
+  cafe:     false, cafeQty:     1,
+  cerelac:  false, cerelacQty:  1,
+  mode: 'place',
+  deliveryFee: 0,
+  livraisonActive: true,
+  lastOrder: null,
+  lastRef: null,
+};
+const PRICE = 1000;
+
+// SHOP STATUS
+function checkShopStatus() {
+  const h = new Date().getHours();
+  const isOpen = h >= 7 && h < 21;
+  const dot = document.getElementById('status-dot');
+  const txt = document.getElementById('status-text');
+  const banner = document.getElementById('closed-banner');
+  if(isOpen) {
+    dot.className = 'status-dot status-open';
+    txt.innerHTML = '<span style="color:#4CAF50;font-weight:600">Ouvert</span> · Commandes livrées aujourd\'hui';
+    banner.style.display = 'none';
+  } else {
+    dot.className = 'status-dot status-closed';
+    txt.innerHTML = '<span style="color:#e74c3c;font-weight:600">Fermé</span> · Commandez maintenant pour demain';
+    banner.style.display = 'block';
+  }
+}
+checkShopStatus();
+
+// PARFUMS
+function toggleFlavor(f) {
+  state[f] = !state[f];
+  document.getElementById('card-' + f).classList.toggle('active', state[f]);
+  updateSummary();
+}
+
+function changeQty(f, d) {
+  const key = f + 'Qty';
+  state[key] = Math.max(1, Math.min(20, state[key] + d));
+  document.getElementById('num-' + f).textContent = state[key];
+  updateSummary();
+}
+
+// MODE
+function selectMode(m) {
+  state.mode = m;
+  document.getElementById('mode-place').classList.toggle('active', m==='place');
+  document.getElementById('mode-livraison').classList.toggle('active', m==='livraison');
+  document.getElementById('delivery-fields').classList.toggle('show', m==='livraison');
+  if(m === 'place') {
+    state.deliveryFee = 0;
+    document.getElementById('delivery-fee-box').style.display = 'none';
+  }
+  updateSummary();
+}
+
+// FRAIS LIVRAISON
+function updateDeliveryFee() {
+  const commune = document.getElementById('delivery-commune').value;
+  const box = document.getElementById('delivery-fee-box');
+  const label = document.getElementById('delivery-fee-label');
+  const note = document.getElementById('delivery-fee-note');
+  if(!commune) {
+    state.deliveryFee = 0;
+    box.style.display = 'none';
+  } else if(commune === 'lbv') {
+    state.deliveryFee = 2000;
+    label.textContent = '2 000 FCFA';
+    note.textContent = 'Livraison dans Libreville';
+    box.style.display = 'block';
+  } else {
+    state.deliveryFee = 3000;
+    label.textContent = '3 000 FCFA';
+    note.textContent = 'Livraison hors Libreville (Owendo, Akanda, Ntoum...)';
+    box.style.display = 'block';
+  }
+  updateSummary();
+}
+
+// RÉCAPITULATIF
+function updateSummary() {
+  const box = document.getElementById('summary-box');
+  const anySelected = FLAVORS.some(f => state[f]);
+  if(!anySelected) { box.style.display='none'; return; }
+  box.style.display = 'block';
+
+  // Vider les anciennes lignes parfums
+  const existing = document.querySelectorAll('.sum-flavor-row');
+  existing.forEach(e => e.remove());
+  const modeRow = document.getElementById('sum-mode').closest('.sum-row');
+
+  let bols = 0;
+  FLAVORS.forEach(f => {
+    if(!state[f]) return;
+    const qty = state[f + 'Qty'];
+    bols += qty * PRICE;
+    const row = document.createElement('div');
+    row.className = 'sum-row sum-flavor-row';
+    row.innerHTML = `<span class="sum-label">${FLAVOR_EMOJI[f]} ${f.charAt(0).toUpperCase()+f.slice(1)}</span><span class="sum-val">${qty} bol${qty>1?'s':''} = ${(qty*PRICE).toLocaleString('fr-FR')} FCFA</span>`;
+    modeRow.before(row);
+  });
+
+  document.getElementById('sum-mode').textContent = state.mode === 'place' ? '🏪 Sur place' : '🛵 Livraison';
+  const total = bols + state.deliveryFee;
+  const feeRow = document.getElementById('sum-fee-row');
+  if(state.mode === 'livraison' && state.deliveryFee > 0) {
+    feeRow.style.display = 'flex';
+    document.getElementById('sum-fee-val').textContent = state.deliveryFee.toLocaleString('fr-FR') + ' FCFA';
+  } else {
+    feeRow.style.display = 'none';
+  }
+  document.getElementById('sum-total').textContent = total.toLocaleString('fr-FR') + ' FCFA';
+}
+
+// SOUMISSION
+function submitOrder() {
+  if(!FLAVORS.some(f => state[f])) { alert('Veuillez choisir au moins un parfum.'); return; }
+  const name  = document.getElementById('client-name').value.trim();
+  const phone = document.getElementById('client-phone').value.trim();
+  if(!name)  { alert('Veuillez entrer votre nom.'); return; }
+  if(!phone) { alert('Veuillez entrer votre numéro de téléphone.'); return; }
+
+  if(state.mode === 'livraison') {
+    const commune = document.getElementById('delivery-commune').value;
+    const addr    = document.getElementById('delivery-address').value.trim();
+    const dph     = document.getElementById('delivery-phone').value.trim();
+    if(!commune) { alert('Veuillez choisir votre commune pour calculer les frais de livraison.'); return; }
+    if(!addr)    { alert('Veuillez entrer votre adresse de livraison.'); return; }
+    if(!dph)     { alert('Veuillez entrer un numéro pour la livraison.'); return; }
+  }
+
+  const ref  = 'MK-' + Math.floor(1000 + Math.random()*9000);
+  const bols = FLAVORS.reduce((sum, f) => sum + (state[f] ? state[f + 'Qty'] * PRICE : 0), 0);
+  const total = bols + state.deliveryFee;
+  const isOpen = new Date().getHours() >= 7 && new Date().getHours() < 21;
+
+  // Construire détail
+  let detail = '';
+  FLAVORS.forEach(f => {
+    if(!state[f]) return;
+    const q = state[f + 'Qty'];
+    const label = f === 'cafe' ? 'Café' : f === 'cerelac' ? 'Cérélac' : f.charAt(0).toUpperCase() + f.slice(1);
+    detail += `${FLAVOR_EMOJI[f]} ${label} × ${q} = ${(q*PRICE).toLocaleString('fr-FR')} FCFA\n`;
+  });
+  if(state.mode === 'livraison' && state.deliveryFee > 0) {
+    const commune = document.getElementById('delivery-commune').value;
+    detail += `🛵 Frais livraison ${commune==='lbv'?'Libreville':'hors LBV'} : ${state.deliveryFee.toLocaleString('fr-FR')} FCFA\n`;
+  }
+  detail += `💰 Total : ${total.toLocaleString('fr-FR')} FCFA\n`;
+  if(state.mode === 'livraison') {
+    detail += `📍 ${document.getElementById('delivery-address').value.trim()}\n`;
+    detail += `📞 ${document.getElementById('delivery-phone').value.trim()}`;
+  } else {
+    detail += `🏪 Récupération sur place — paiement à la caisse`;
+  }
+
+  state.lastOrder = { name, phone, detail, mode: state.mode, total, ref };
+  state.lastRef = ref;
+
+  // Enregistrer dans Supabase
+  const commune = state.mode === 'livraison' ? document.getElementById('delivery-commune').value : null;
+  const addr    = state.mode === 'livraison' ? document.getElementById('delivery-address').value.trim() : null;
+  const dph     = state.mode === 'livraison' ? document.getElementById('delivery-phone').value.trim() : null;
+  const notes   = document.getElementById('notes').value.trim() || null;
+
+  sb.from('mekalas_orders').insert({
+    ref,
+    client_name:      name,
+    client_phone:     phone,
+    choco_qty:        state.chocolat ? state.chocolatQty : 0,
+    vanille_qty:      state.vanille ? state.vanilleQty : 0,
+    cafe_qty:         state.cafe ? state.cafeQty : 0,
+    cerelac_qty:      state.cerelac ? state.cerelacQty : 0,
+    mode:             state.mode,
+    commune,
+    delivery_fee:     state.deliveryFee,
+    delivery_address: addr,
+    delivery_phone:   dph,
+    notes,
+    total,
+    for_tomorrow:     !isOpen,
+    status:           'pending',
+  }).then(({ error }) => {
+    if(error) console.error('Supabase error:', error.message);
+  });
+
+  // Afficher succès
+  document.getElementById('s-icon').textContent = isOpen ? '🎉' : '🌙';
+  document.getElementById('s-title').textContent = isOpen ? 'Commande envoyée !' : 'Commande enregistrée !';
+  document.getElementById('s-text').textContent = isOpen
+    ? 'Nous avons bien reçu votre commande et vous contacterons rapidement.'
+    : 'La boutique est fermée. Votre commande sera préparée demain à l\'ouverture.';
+  document.getElementById('s-detail').innerHTML = detail.replace(/\n/g,'<br>');
+  document.getElementById('s-ref').textContent = 'Réf : ' + ref;
+
+  if(state.mode === 'place') {
+    document.getElementById('s-btn').textContent = '📍 Signaler mon arrivée à la boutique';
+  } else {
+    document.getElementById('s-btn').textContent = 'Parfait, merci !';
+  }
+
+  document.getElementById('success-overlay').style.display = 'flex';
+
+  // Notif patron
+  setTimeout(() => showNotif('commande', name, detail), 1200);
+}
+
+function handleSuccessBtn() {
+  document.getElementById('success-overlay').style.display = 'none';
+  if(state.mode === 'place') {
+    document.getElementById('presence-overlay').style.display = 'flex';
+  } else {
+    resetForm();
+  }
+}
+
+async function signalPresence() {
+  document.getElementById('presence-overlay').style.display = 'none';
+  const name = state.lastOrder?.name ?? 'Client';
+  const detail = state.lastOrder?.detail ?? '';
+
+  // Mettre à jour le statut dans Supabase
+  if(state.lastRef) {
+    await sb.from('mekalas_orders')
+      .update({ status: 'confirmed' })
+      .eq('ref', state.lastRef);
+  }
+
+  showNotif('presence', name, detail);
+  alert('✅ Votre présence a été signalée ! Mekala\'s vous prépare votre commande.');
+  resetForm();
+}
+
+function closePresentOverlay() {
+  document.getElementById('presence-overlay').style.display = 'none';
+  resetForm();
+}
+
+// NOTIFICATION PATRON
+function showNotif(type, name, detail) {
+  const notif = document.getElementById('patron-notif');
+  const titleEl = document.getElementById('notif-title-text');
+  const bodyEl = document.getElementById('notif-body');
+
+  let typeLabel = '';
+  let typeClass = '';
+  if(type === 'commande' && state.mode === 'place') {
+    titleEl.textContent = 'Commande sur place';
+    typeLabel = '🏪 SUR PLACE'; typeClass = 'notif-surplace';
+  } else if(type === 'commande' && state.mode === 'livraison') {
+    titleEl.textContent = 'Commande livraison';
+    typeLabel = '🛵 LIVRAISON'; typeClass = 'notif-livraison';
+  } else {
+    titleEl.textContent = '📍 Client arrivé !';
+    typeLabel = '📍 PRÉSENCE'; typeClass = 'notif-presence';
+  }
+
+  bodyEl.innerHTML =
+    `<span class="notif-type ${typeClass}">${typeLabel}</span><br>` +
+    `<strong style="color:#fff">${name}</strong><br>` +
+    detail.replace(/\n/g,'<br>');
+
+  notif.style.display = 'block';
+  setTimeout(() => notif.style.display='none', 8000);
+}
+
+// RESET
+function resetForm() {
+  FLAVORS.forEach(f => {
+    state[f] = false; state[f + 'Qty'] = 1;
+    document.getElementById('card-' + f).classList.remove('active');
+    document.getElementById('num-' + f).textContent = '1';
+  });
+  document.getElementById('client-name').value = '';
+  document.getElementById('client-phone').value = '';
+  document.getElementById('delivery-commune').value = '';
+  document.getElementById('delivery-address').value = '';
+  document.getElementById('delivery-phone').value = '';
+  document.getElementById('delivery-fee-box').style.display = 'none';
+  state.deliveryFee = 0;
+  document.getElementById('notes').value = '';
+  document.getElementById('summary-box').style.display = 'none';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// PHOTOS PATRON (démo — en production ces données viennent de Supabase)
+const patronData = {
+  logo: null,
+  photos: [null, null, null, null],
+  phone: '07 45 57 72',
+};
+</script>
+</body>
+</html>
